@@ -5,10 +5,10 @@ config();
 interface MCPItem {
   repo: string;
   desc: string;
+  tags: string;
   star: string;
   lang: string;
   update: string;
-  tags: string;
 }
 
 const from = process.env.MCP_CRAWL_FROM;
@@ -17,7 +17,7 @@ const url = `${process.env.MCP_CRAWL_BASE_URL}/search?q=mcp+pushed%3A${from}..${
 
 const crawler = new PlaywrightCrawler({
   navigationTimeoutSecs: 120,
-  requestHandlerTimeoutSecs: 180,
+  requestHandlerTimeoutSecs: 120,
   maxRequestRetries: 7,
   retryOnBlocked: true,
   headless: true,
@@ -34,7 +34,7 @@ const crawler = new PlaywrightCrawler({
     await page.route('**/*', (route) => {
       const request = route.request();
       if (['image', 'stylesheet', 'font'].includes(request.resourceType())) {
-        route.abort(); // 阻止加载不必要的资源
+        route.abort();
       } else {
         route.continue();
       }
@@ -54,10 +54,9 @@ const crawler = new PlaywrightCrawler({
       });
 
       const containers = await page.locator("//div[@data-testid='results-list']/div").all();
-      log.info(`Found ${containers.length} repositories`);
-
       const nextButton = page.locator("//a[@rel='next']");
       const nextPageHref = await nextButton.getAttribute('href');
+      log.info(`Found ${containers.length} repositories`);
       if (nextPageHref) {
         await enqueueLinks({ urls: [nextPageHref], label: "BASE" });
         log.info(`Enqueued next page: ${nextPageHref}`);
@@ -71,7 +70,6 @@ const crawler = new PlaywrightCrawler({
             container.locator("xpath=//li//span").all(),
             container.locator("xpath=//ul/preceding-sibling::div//a").allTextContents()
           ]);
-          log.info('tags', tags)
 
           const item: MCPItem = {
             repo: repoHref ? repoHref.slice(1) : "null",
@@ -100,7 +98,6 @@ const crawler = new PlaywrightCrawler({
         finally {
           log.info(`Finished: ${request.url} duration: ${(Date.now() - startTime) / 1000}s`);
         }
-
       }));
 
       await Dataset.pushData(repoData.filter(Boolean));
@@ -114,5 +111,4 @@ const crawler = new PlaywrightCrawler({
   },
 });
 
-// 运行爬虫
 crawler.run([{ url, label: "BASE" }]);
