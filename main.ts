@@ -1,8 +1,7 @@
 import { PlaywrightCrawler, Dataset, log } from 'crawlee';
 import { config } from 'dotenv';
-config();
 
-interface MCPItem {
+interface RepoItem {
   repo: string;
   desc: string;
   tags: string;
@@ -11,9 +10,13 @@ interface MCPItem {
   update: string;
 }
 
-const from = process.env.MCP_CRAWL_FROM;
-const to = process.env.MCP_CRAWL_TO;
-const url = `${process.env.MCP_CRAWL_BASE_URL}/search?q=mcp+pushed%3A${from}..${to}&type=repositories`;
+config();
+const baseUrl = process.env.CRAWL_BASE_URL
+const from = process.env.CRAWL_FROM;
+const to = process.env.CRAWL_TO;
+const keyWord = process.env.CRAWL_KEY_WORD
+const token = process.env.GH_TOKEN
+const url = `${baseUrl}/search?q=${keyWord}+pushed%3A${from}..${to}&type=repositories`;
 
 const crawler = new PlaywrightCrawler({
   navigationTimeoutSecs: 120,
@@ -43,7 +46,7 @@ const crawler = new PlaywrightCrawler({
   requestHandler: async ({ page, request, enqueueLinks }) => {
     const startTime = Date.now();
     await page.setExtraHTTPHeaders({
-      'Authorization': `Bearer ${process.env.MCP_GH_TOKEN}`
+      'Authorization': `Bearer ${token}`
     });
     await page.waitForLoadState('networkidle', { timeout: 15000 });
     if (request.label === 'BASE') {
@@ -71,7 +74,7 @@ const crawler = new PlaywrightCrawler({
             container.locator("xpath=//ul/preceding-sibling::div//a").allTextContents()
           ]);
 
-          const item: MCPItem = {
+          const item: RepoItem = {
             repo: repoHref ? repoHref.slice(1) : "null",
             desc: description.length === 2 ? description[1] : "null",
             tags: tags.length != 0 ? tags.join(',') : "null",

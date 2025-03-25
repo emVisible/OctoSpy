@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "crawl": "ts-node crawl.ts"
+    "crawl": "ts-node main.ts"
   },
   "keywords": [
     "github",
