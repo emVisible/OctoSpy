@@ -8,7 +8,7 @@ pnpm i
 ```
 
 ## env配置
-设置爬取的
+设置爬取所需信息
 ```
 MCP_CRAWL_BASE_URL="https://github.com"
 MCP_CRAWL_KEY_WORD="mcp"
