@@ -1,0 +1,25 @@
+{
+  "name": "github-crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "crawl": "ts-node crawl.ts"
+  },
+  "keywords": [
+    "github",
+    "crawl"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crawlee": "^3.13.0",
+    "dotenv": "^16.4.7",
+    "playwright": "^1.51.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}
