@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "crawl": "ts-node main.ts"
+    "crawl": "ts-node crawl.ts",
+    "merge": "ts-node merge.ts",
+    "reconcile": "ts-node reconcile.ts"
   },
   "keywords": [
     "github",
@@ -18,7 +20,9 @@
     "playwright": "^1.51.1"
   },
   "devDependencies": {
+    "@types/ndjson": "^2.0.4",
     "@types/node": "^22.13.11",
+    "date-fns": "^4.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

@@ -1,7 +1,8 @@
-import { PlaywrightCrawler, Dataset, log } from 'crawlee';
+import { Dataset, log, PlaywrightCrawler } from 'crawlee';
 import { config } from 'dotenv';
 
-interface RepoItem {
+
+export interface RepoItem {
   repo: string;
   desc: string;
   tags: string;
@@ -11,17 +12,19 @@ interface RepoItem {
 }
 
 config();
-const baseUrl = process.env.CRAWL_BASE_URL
-const from = process.env.CRAWL_FROM;
-const to = process.env.CRAWL_TO;
-const keyWord = process.env.CRAWL_KEY_WORD
-const token = process.env.GH_TOKEN
-const url = `${baseUrl}/search?q=${keyWord}+pushed%3A${from}..${to}&type=repositories`;
 
-const crawler = new PlaywrightCrawler({
+export const BASE_URL = process.env.CRAWL_BASE_URL
+export const FROM = process.env.CRAWL_FROM;
+export const TO = process.env.CRAWL_TO;
+export const KEYWORD = process.env.CRAWL_KEY_WORD
+export const TOKEN = process.env.GH_TOKEN
+export const URL = `${BASE_URL}/search?q=${KEYWORD}+pushed%3A${FROM}..${TO}&type=repositories`;
+
+export const crawler = new PlaywrightCrawler({
   navigationTimeoutSecs: 120,
   requestHandlerTimeoutSecs: 120,
-  maxRequestRetries: 7,
+  maxRequestRetries: 20,
+  maxRequestsPerMinute: 80,
   retryOnBlocked: true,
   headless: true,
   useSessionPool: true,
@@ -46,7 +49,7 @@ const crawler = new PlaywrightCrawler({
   requestHandler: async ({ page, request, enqueueLinks }) => {
     const startTime = Date.now();
     await page.setExtraHTTPHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${TOKEN}`
     });
     await page.waitForLoadState('networkidle', { timeout: 15000 });
     if (request.label === 'BASE') {
@@ -55,16 +58,16 @@ const crawler = new PlaywrightCrawler({
         timeout: 30000,
         state: 'attached'
       });
-
       const containers = await page.locator("//div[@data-testid='results-list']/div").all();
-      const nextButton = page.locator("//a[@rel='next']");
-      const nextPageHref = await nextButton.getAttribute('href');
-      log.info(`Found ${containers.length} repositories`);
-      if (nextPageHref) {
-        await enqueueLinks({ urls: [nextPageHref], label: "BASE" });
-        log.info(`Enqueued next page: ${nextPageHref}`);
-      }
-
+      const nextButton = await page.locator("//a[@rel='next']");
+      if (await nextButton.count() > 0) {
+        const nextPageHref = await nextButton.getAttribute('href');
+        log.info(`Found ${containers.length} repositories`);
+        if (nextPageHref) {
+          await enqueueLinks({ urls: [nextPageHref], label: "BASE" });
+          log.info(`Enqueued next page: ${nextPageHref}`);
+        }
+      } else log.info(`Data has only 1 page`);
       const repoData = await Promise.all(containers.map(async (container) => {
         try {
           const [repoHref, description, meta, tags] = await Promise.all([
@@ -114,4 +117,4 @@ const crawler = new PlaywrightCrawler({
   },
 });
 
-crawler.run([{ url, label: "BASE" }]);
+crawler.run([{ url: URL, label: "BASE" }]);
