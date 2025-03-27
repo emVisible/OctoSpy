@@ -13,14 +13,14 @@ export interface RepoItem {
 
 config();
 
-export const BASE_URL = process.env.CRAWL_BASE_URL
-export const FROM = process.env.CRAWL_FROM;
-export const TO = process.env.CRAWL_TO;
-export const KEYWORD = process.env.CRAWL_KEY_WORD
-export const TOKEN = process.env.GH_TOKEN
-export const URL = `${BASE_URL}/search?q=${KEYWORD}+pushed%3A${FROM}..${TO}&type=repositories`;
+const BASE_URL = process.env.CRAWL_BASE_URL
+const FROM = process.env.CRAWL_FROM
+const TO = process.env.CRAWL_TO;
+const KEYWORD = process.env.CRAWL_KEY_WORD
+const TOKEN = process.env.GH_TOKEN
+const URL = `${BASE_URL}/search?q=${KEYWORD}+pushed%3A${FROM}..${TO}&type=repositories`;
 
-export const crawler = new PlaywrightCrawler({
+const crawler = new PlaywrightCrawler({
   navigationTimeoutSecs: 120,
   requestHandlerTimeoutSecs: 120,
   maxRequestRetries: 20,

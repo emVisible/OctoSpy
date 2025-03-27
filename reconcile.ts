@@ -6,10 +6,11 @@ import fs from "fs";
 import { RepoItem } from "./crawl";
 
 config();
-export const RECONCILE_INPUT = process.env.MERGE_OUTPUT
-export const RECONCILE_OUTPUT = process.env.RECONCILE_OUTPUT
-export const reconcileInput = path.resolve(__dirname, RECONCILE_INPUT!)
-export const reconcileOutput = path.resolve(__dirname, RECONCILE_OUTPUT!)
+const RECONCILE_INPUT = process.env.MERGE_OUTPUT
+const RECONCILE_OUTPUT = process.env.RECONCILE_OUTPUT
+const reconcileInput = path.resolve(__dirname, RECONCILE_INPUT!)
+const reconcileOutput = path.resolve(__dirname, RECONCILE_OUTPUT!)
+
 
 export const reconcile = () => {
   const rawData: RepoItem[] = JSON.parse(fs.readFileSync(reconcileInput, "utf-8"));
@@ -24,6 +25,13 @@ export const reconcile = () => {
     } else {
       item.update = "null";
     }
+    Object.keys(item).forEach((prop) => {
+      if (item[prop as keyof RepoItem] === null) {
+        (item as any)[prop] = "null";
+      } else if (prop === "tags" && typeof item.tags === "string") {
+        item.tags = item.tags.replace(/\n/g, ",");
+      }
+    });
     if (!seenRepos.has(key) || currentTimestamp > getTimestamp(seenRepos.get(key)!.update)) {
       seenRepos.set(key, item);
     }
