@@ -2,7 +2,7 @@ import { Dataset, log, PlaywrightCrawler } from 'crawlee';
 import { config } from 'dotenv';
 
 
-export interface RepoItem {
+export interface RepoItemRaw {
   repo: string;
   desc: string;
   tags: string;
@@ -77,7 +77,7 @@ const crawler = new PlaywrightCrawler({
             container.locator("xpath=//ul/preceding-sibling::div//a").allTextContents()
           ]);
 
-          const item: RepoItem = {
+          const item: RepoItemRaw = {
             repo: repoHref ? repoHref.slice(1) : "null",
             desc: description.length === 2 ? description[1] : "null",
             tags: tags.length != 0 ? tags.join(',') : "null",
@@ -115,6 +115,7 @@ const crawler = new PlaywrightCrawler({
     const delaySec = Math.pow(2, request.retryCount);
     await new Promise(resolve => setTimeout(resolve, delaySec * 1000));
   },
+
 });
 
 crawler.run([{ url: URL, label: "BASE" }]);
