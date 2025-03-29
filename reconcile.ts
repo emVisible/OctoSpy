@@ -63,11 +63,11 @@ const processRepositoryData = (rawData: RawDataItem[]): RepoItem[] => {
 };
 
 const createRepoItem = (item: RawDataItem): RepoItem => ({
-  repo: item.repo || "null",
-  desc: item.desc || "null",
+  repo: item.repo,
+  desc: item.desc ?? "null",
   tags: typeof item.tags === "string" ? item.tags.replace(/\n/g, ",") : "null",
   star: normalizeStar(item.star),
-  lang: item.lang || "null",
+  lang: item.lang ?? "null",
   update: formatUpdateDate(item.update)
 });
 

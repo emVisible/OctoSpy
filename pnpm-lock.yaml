@@ -17,6 +17,9 @@ importers:
       playwright:
         specifier: ^1.51.1
         version: 1.51.1
+      tiktoken:
+        specifier: ^1.0.20
+        version: 1.0.20
     devDependencies:
       '@types/ndjson':
         specifier: ^2.0.4
@@ -1140,6 +1143,9 @@ packages:
 
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
+
+  tiktoken@1.0.20:
+    resolution: {integrity: sha512-zVIpXp84kth/Ni2me1uYlJgl2RZ2EjxwDaWLeDY/s6fZiyO9n1QoTOM5P7ZSYfToPvAvwYNMbg5LETVYVKyzfQ==}
 
   tiny-typed-emitter@2.1.0:
     resolution: {integrity: sha512-qVtvMxeXbVej0cQWKqVSSAHmKZEHAvxdF8HEUBFWts8h+xEo5m/lEiPakuyZ3BnCBjOD8i24kzNOiOLLgsSxhA==}
@@ -2593,6 +2599,8 @@ snapshots:
   symbol-tree@3.2.4: {}
 
   through@2.3.8: {}
+
+  tiktoken@1.0.20: {}
 
   tiny-typed-emitter@2.1.0: {}
 

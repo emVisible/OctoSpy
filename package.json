@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "crawl": "ts-node crawl.ts",
+    "padding": "ts-node padding.ts",
     "merge": "ts-node merge.ts",
     "reconcile": "ts-node reconcile.ts"
   },
@@ -17,7 +18,8 @@
   "dependencies": {
     "crawlee": "^3.13.0",
     "dotenv": "^16.4.7",
-    "playwright": "^1.51.1"
+    "playwright": "^1.51.1",
+    "tiktoken": "^1.0.20"
   },
   "devDependencies": {
     "@types/ndjson": "^2.0.4",

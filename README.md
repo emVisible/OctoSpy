@@ -20,6 +20,11 @@
 pnpm i
 ```
 
+初次安装需要额外安装环境
+```
+pnpm exec playwright install
+```
+
 ## env配置
 1. .env.example设置爬取所需信息
 ```
