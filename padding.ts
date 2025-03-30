@@ -7,7 +7,7 @@ function countTokens(text: string) {
   return enc.encode(text).length;
 }
 
-async function splitJsonByTokens(inputPath: string, outputPrefix: string, maxTokens = 30000) {
+async function splitJsonByTokens(inputPath: string, outputPrefix: string, maxTokens = 15000) {
   try {
     console.log(`Starting JSON split process for file: ${inputPath}`);
     const rawData = await readFile(inputPath, 'utf-8');
@@ -58,4 +58,4 @@ async function splitJsonByTokens(inputPath: string, outputPrefix: string, maxTok
   }
 }
 
-splitJsonByTokens("./output.json", "output")
+splitJsonByTokens("./filtered.json", "output")

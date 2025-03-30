@@ -3,5 +3,7 @@ node_modules
 .env
 test*.json
 merged.json
+dirty.json
 output.json
+filtered.json
 _tmp

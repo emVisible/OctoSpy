@@ -26,9 +26,9 @@ export async function merge() {
   );
 
   const flattened = res.flat();
-  console.log('[System] Total items before filtering:', flattened.length); // Log initial length
+  console.log('[System] Total items before filtering:', flattened.length);
   const filteredData = filterItems(flattened);
-  console.log('[System] Total items after filtering:', filteredData.length); // Log filtered length
+  console.log('[System] Total items after filtering:', filteredData.length);
   await writeFile(
     mergeOutput,
     JSON.stringify(filteredData, null, 2),

@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "crawl": "ts-node crawl.ts",
-    "padding": "ts-node padding.ts",
     "merge": "ts-node merge.ts",
-    "reconcile": "ts-node reconcile.ts"
+    "reconcile": "ts-node reconcile.ts",
+    "filter": "ts-node filter.ts",
+    "padding": "ts-node padding.ts"
   },
   "keywords": [
-    "github",
-    "crawl"
+    "crawl",
+    "data filer"
   ],
   "author": "",
   "license": "ISC",
