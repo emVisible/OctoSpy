@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "crawl": "ts-node crawl.ts",
-    "merge": "ts-node merge.ts",
-    "reconcile": "ts-node reconcile.ts",
-    "filter": "ts-node filter.ts",
-    "padding": "ts-node padding.ts"
+    "crawl": "ts-node src/crawl.ts",
+    "merge": "ts-node src/merge.ts",
+    "reconcile": "ts-node src/reconcile.ts",
+    "filter": "ts-node src/filter.ts",
+    "padding": "ts-node src/padding.ts"
   },
   "keywords": [
-    "crawl",
-    "data filer"
+    "playwright",
+    "crawler"
   ],
   "author": "",
   "license": "ISC",

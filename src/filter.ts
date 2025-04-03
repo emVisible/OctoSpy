@@ -1,8 +1,16 @@
 import * as fs from 'fs';
 
-const OUTPUT_FILE = 'output.json';
-const DIRTY_FILE = 'dirty.json';
-const FILTERED_OUTPUT_FILE = 'filtered.json';
+import path from 'path';
+import { config } from 'dotenv';
+
+/**
+ * 根据外部的dirty.json的repo信息来进行过滤
+*/
+config();
+const FILTERED_REFERENCE = path.resolve(__dirname, process.env.FILTERED_REFERENCE!)
+const FILTERED_INPUT = path.resolve(__dirname, process.env.FILTERED_INPUT!)
+const FILTERED_OUTPUT = path.resolve(__dirname, process.env.FILTERED_OUTPUT!)
+
 function readJsonFile<T>(filePath: string): T | null {
   try {
     const data = fs.readFileSync(filePath, 'utf8');
@@ -21,8 +29,8 @@ function writeJsonFile<T>(filePath: string, data: T): void {
   }
 }
 function filterData() {
-  const outputData = readJsonFile<{ repo: string }[]>(OUTPUT_FILE);
-  const dirtyData = readJsonFile<string[]>(DIRTY_FILE);
+  const outputData = readJsonFile<{ repo: string }[]>(FILTERED_INPUT);
+  const dirtyData = readJsonFile<string[]>(FILTERED_REFERENCE);
 
   if (!outputData || !dirtyData) return;
 
@@ -42,10 +50,10 @@ function filterData() {
 
   console.log(`✅ Filtering complete. ${filteredData.length} items remain after filtering.`);
   if (invalidEntries.length > 0) {
-    console.warn(`⚠️ Warning: The following ${invalidEntries.length} entries in ${DIRTY_FILE} are invalid and were ignored:`);
+    console.warn(`⚠️ Warning: The following ${invalidEntries.length} entries in ${FILTERED_REFERENCE} are invalid and were ignored:`);
     invalidEntries.forEach(entry => console.warn(`  - "${entry}" is not a valid repo format (expected "owner/repo")`));
   }
 
-  writeJsonFile(FILTERED_OUTPUT_FILE, filteredData);
+  writeJsonFile(FILTERED_OUTPUT, filteredData);
 }
 filterData();

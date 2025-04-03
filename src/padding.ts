@@ -1,6 +1,12 @@
 import { readFile, writeFile } from 'fs/promises';
 import { get_encoding } from 'tiktoken';
+import { config } from 'dotenv';
+import path from 'path';
 
+config();
+
+const PADDING_INPUT = path.resolve(__dirname, process.env.PADDING_INPUT!)
+const PADDING_OUTPUT = path.resolve(__dirname, process.env.PADDING_OUTPUT!)
 const enc = get_encoding('cl100k_base');
 
 function countTokens(text: string) {
@@ -58,4 +64,4 @@ async function splitJsonByTokens(inputPath: string, outputPrefix: string, maxTok
   }
 }
 
-splitJsonByTokens("./filtered.json", "output")
+splitJsonByTokens(PADDING_INPUT, PADDING_OUTPUT)

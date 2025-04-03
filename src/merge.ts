@@ -1,6 +1,6 @@
-import { config } from 'dotenv';
 import { readdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
+import { config } from 'dotenv';
 
 config();
 const MERGE_INPUT = process.env.MERGE_INPUT;
