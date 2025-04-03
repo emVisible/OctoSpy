@@ -27,33 +27,35 @@ pnpm exec playwright install
 
 ## env配置
 1. .env.example设置爬取所需信息
-```
-CRAWL_BASE_URL="https://github.com"
-CRAWL_KEY_WORD="sugar"
-GH_TOKEN=""
-CRAWL_FROM="2025-03-01"
-CRAWL_TO="2025-03-07"
-
-MERGE_INPUT="./storage/datasets/default"
-MERGE_OUTPUT="./merged.json"
-
-RECONCILE_OUTPUT="./output.json"
-```
 
 2. 将.env.example重命名为.env文件
 
 ## 运行
-爬取
+### 爬取
 ```
 pnpm crawl
 ```
 
+### 合并
 将爬取到的结果转为单个json文件
 ```
 pnpm merge
 ```
 
+### 调和
 将json文件的内容进行调和处理, 转为统一格式
 ```
 pnpm reconcile
+```
+
+### 拆分
+进行拆分, 用于AI数据清洗
+```
+pnpm padding
+```
+
+### 过滤
+结合AI回答进行数据清洗, 这一步需要一个字符串数组, 值是AI检查后确认重复或者无效的repo值
+```
+pnpm filter
 ```

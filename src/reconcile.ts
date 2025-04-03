@@ -15,14 +15,12 @@ export interface RepoItem {
 
 type RawDataItem = Record<string, any>;
 
-// Configuration setup
 config();
 const RECONCILE_INPUT = process.env.MERGE_OUTPUT;
 const RECONCILE_OUTPUT = process.env.RECONCILE_OUTPUT;
 const reconcileInput = path.resolve(__dirname, RECONCILE_INPUT!);
 const reconcileOutput = path.resolve(__dirname, RECONCILE_OUTPUT!);
 
-// Main reconciliation function
 export const reconcile = (): void => {
   try {
     const rawData = readJsonFile<RawDataItem[]>(reconcileInput);
@@ -35,7 +33,6 @@ export const reconcile = (): void => {
   }
 };
 
-// File operations
 const readJsonFile = <T>(filePath: string): T => {
   const fileContent = fs.readFileSync(filePath, "utf-8");
   return JSON.parse(fileContent);
@@ -45,7 +42,6 @@ const writeJsonFile = (filePath: string, data: any): void => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
 };
 
-// Data processing
 const processRepositoryData = (rawData: RawDataItem[]): RepoItem[] => {
   const seenRepos = new Map<string, RepoItem>();
 
@@ -76,7 +72,6 @@ const formatUpdateDate = (update: string | null): string => {
   return timestamp > 0 ? format(new Date(timestamp), "yyyy-MM-dd") : "null";
 };
 
-// Value normalization
 const normalizeStar = (value: any): number => {
   if (typeof value === 'number') return value;
   if (typeof value !== 'string') return 0;

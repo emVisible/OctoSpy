@@ -7,8 +7,8 @@
     "crawl": "ts-node src/crawl.ts",
     "merge": "ts-node src/merge.ts",
     "reconcile": "ts-node src/reconcile.ts",
-    "filter": "ts-node src/filter.ts",
-    "padding": "ts-node src/padding.ts"
+    "padding": "ts-node src/padding.ts",
+    "filter": "ts-node src/filter.ts"
   },
   "keywords": [
     "playwright",

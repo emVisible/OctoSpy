@@ -40,7 +40,7 @@ async function splitJsonByTokens(inputPath: string, outputPrefix: string, maxTok
         currentTokenCount += itemTokens;
       } else {
         const outputData = isArray ? currentChunk : Object.fromEntries(currentChunk);
-        const outputPath = `${outputPrefix}-${chunkIndex.toString().padStart(2, '0')}.json`;
+        const outputPath = `${PADDING_OUTPUT}/${outputPrefix}-${chunkIndex.toString().padStart(2, '0')}.json`;
         await writeFile(outputPath, JSON.stringify(outputData)); // 去除空格
         console.log(`Created chunk ${chunkIndex} at ${outputPath} with ${currentTokenCount} tokens`);
 
@@ -64,4 +64,4 @@ async function splitJsonByTokens(inputPath: string, outputPrefix: string, maxTok
   }
 }
 
-splitJsonByTokens(PADDING_INPUT, PADDING_OUTPUT)
+splitJsonByTokens(PADDING_INPUT, "slice")
